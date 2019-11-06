@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\User;
 use App\Post;
 use Illuminate\Http\Request;
+use App\Http\Requests\StorePost;
+use App\Http\Requests\UpdatePost;
 
 class PostController extends Controller
 {
@@ -14,7 +17,8 @@ class PostController extends Controller
      */
     public function index()
     {
-        //
+        $data = Post::all();
+        return view('post/index', compact('data'));
     }
 
     /**
@@ -24,7 +28,7 @@ class PostController extends Controller
      */
     public function create()
     {
-        //
+        return view('post/create');
     }
 
     /**
@@ -33,9 +37,19 @@ class PostController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StorePost $request)
     {
-        //
+        $request->validated();
+
+        $user = auth()->user();
+
+        $post = new Post;
+        $post->title = $request->title;
+        $post->content = $request->content;
+        $post->user_id = $user->id;
+        $post->save();
+
+        return redirect(route('post.index'));
     }
 
     /**
@@ -52,12 +66,13 @@ class PostController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Post  $post
+     * @param  $post
      * @return \Illuminate\Http\Response
      */
-    public function edit(Post $post)
+    public function edit($post)
     {
-        //
+        $item = Post::find($post);
+        return view('post/edit', compact('item'));
     }
 
     /**
@@ -67,19 +82,27 @@ class PostController extends Controller
      * @param  \App\Post  $post
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Post $post)
+    public function update(UpdatePost $request, Post $post)
     {
-        //
+        $request->validated();
+
+        $post = new Post;
+        $post->title = $request->title;
+        $post->content = $request->content;
+        $post->save();
+
+        return redirect(route('post.index'));
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Post  $post
+     * @param  $post
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Post $post)
+    public function destroy($post)
     {
-        //
+        Post::destroy($post);
+        return redirect(route('post.index'));
     }
 }
