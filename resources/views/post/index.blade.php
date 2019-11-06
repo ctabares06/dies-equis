@@ -14,7 +14,7 @@
                     <p>{{ $item->content }}</p>
                     <em>{{ $item->User->name }}</em>
                 </div>
-                @if ($item->user_id == auth()->user()->id)
+                @if (auth()->user()->can('update', $item) || auth()->user()->id == $item->user_id)
                     <div class="card-footer text-right">
                         <form action="{{ route('post.destroy', ['post' => $item->id]) }}" method="POST">
                             @csrf

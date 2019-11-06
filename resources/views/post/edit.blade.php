@@ -5,8 +5,9 @@
         <div class="text-right">
             <a href="{{ route('post.index') }}" class="btn btn-outline-primary">View Posts</a>
         </div>
-        <form action="{{ route('post.store') }}" method="post">
+        <form action="{{ route('post.update', ['post' => $item->id]) }}" method="post">
             @csrf
+            @method('PUT')
             <div class="card my-3">
                 <div class="card-header bg-light text-dark text-center">
                     <input type="text" class="form-control" value="{{ $item->title }}" placeholder="Title for the post" name="title">

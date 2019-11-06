@@ -86,10 +86,11 @@ class PostController extends Controller
     {
         $request->validated();
 
-        $post = new Post;
-        $post->title = $request->title;
-        $post->content = $request->content;
-        $post->save();
+        $item = Post::find($post)->first();
+        $item->title = $request->title;
+        $item->content = $request->content;
+        $item->save();
+
 
         return redirect(route('post.index'));
     }
