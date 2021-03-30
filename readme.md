@@ -2,6 +2,8 @@
 
 * Usuarios: admin@admin.com / user@user.com
 
+*Este repositorio es una prueba para una empresa.
+
 **El usuario admin podrá modificar y eliminar todos los posts aunque no sean de su pertenencia.**
 
 **El usuario User sólo podrá modifcar y eliminar los posts de su pertenencia.**
